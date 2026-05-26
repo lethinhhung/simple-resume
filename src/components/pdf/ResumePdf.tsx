@@ -78,13 +78,13 @@ function buildStyles(ps: PageSettings) {
   const BASE = ps.fontSize;
   return StyleSheet.create({
     page: {
-      paddingTop: ps.marginTop * 72,
-      paddingBottom: ps.marginBottom * 72,
-      paddingLeft: ps.marginLeft * 72,
-      paddingRight: ps.marginRight * 72,
+      paddingTop: ps.marginTop * 28.3465,
+      paddingBottom: ps.marginBottom * 28.3465,
+      paddingLeft: ps.marginLeft * 28.3465,
+      paddingRight: ps.marginRight * 28.3465,
       fontFamily: ps.fontFamily,
       fontSize: BASE,
-      lineHeight: 1.2,
+      lineHeight: 1.3,
       color: "#000",
     },
     header: {
@@ -107,7 +107,7 @@ function buildStyles(ps: PageSettings) {
       marginTop: 1,
     },
     section: {
-      marginTop: 4,
+      marginTop: 7,
     },
     sectionTitle: {
       fontSize: BASE,
@@ -136,7 +136,7 @@ function buildStyles(ps: PageSettings) {
       marginTop: 1,
     },
     entry: {
-      marginBottom: 2,
+      marginBottom: 5,
     },
     entryLast: {
       marginBottom: 0,
@@ -144,8 +144,10 @@ function buildStyles(ps: PageSettings) {
     bullet: {
       paddingLeft: 10,
     },
+    skillsContainer: {
+      lineHeight: 1,
+    },
     skillRow: {
-      lineHeight: 1.15,
     },
   });
 }
@@ -310,7 +312,7 @@ function PdfEducation({
 
 function PdfSkills({ data, styles: s }: { data: SkillsSection; styles: S }) {
   return (
-    <View>
+    <View style={s.skillsContainer}>
       {data.categories.map((cat) => (
         <Text key={cat.id} style={s.skillRow}>
           <Text style={s.bold}>{cat.category}:</Text> {cat.values}

@@ -60,28 +60,28 @@ export function PageSettingsEditor() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Top (in)</Label>
+            <Label className="text-xs">Margin Top (cm)</Label>
             <Input
               type="number"
-              min={0.1}
-              max={1.5}
-              step={0.05}
+              min={0.2}
+              max={4}
+              step={0.1}
               value={ps.marginTop}
               onChange={(e) =>
-                update({ marginTop: parseFloat(e.target.value) || 0.4 })
+                update({ marginTop: parseFloat(e.target.value) || 1 })
               }
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Bottom (in)</Label>
+            <Label className="text-xs">Margin Bottom (cm)</Label>
             <Input
               type="number"
-              min={0.1}
-              max={1.5}
-              step={0.05}
+              min={0.2}
+              max={4}
+              step={0.1}
               value={ps.marginBottom}
               onChange={(e) =>
-                update({ marginBottom: parseFloat(e.target.value) || 0.4 })
+                update({ marginBottom: parseFloat(e.target.value) || 1 })
               }
             />
           </div>
@@ -89,28 +89,28 @@ export function PageSettingsEditor() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Left (in)</Label>
+            <Label className="text-xs">Margin Left (cm)</Label>
             <Input
               type="number"
-              min={0.1}
-              max={1.5}
-              step={0.05}
+              min={0.2}
+              max={4}
+              step={0.1}
               value={ps.marginLeft}
               onChange={(e) =>
-                update({ marginLeft: parseFloat(e.target.value) || 0.45 })
+                update({ marginLeft: parseFloat(e.target.value) || 1.15 })
               }
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Right (in)</Label>
+            <Label className="text-xs">Margin Right (cm)</Label>
             <Input
               type="number"
-              min={0.1}
-              max={1.5}
-              step={0.05}
+              min={0.2}
+              max={4}
+              step={0.1}
               value={ps.marginRight}
               onChange={(e) =>
-                update({ marginRight: parseFloat(e.target.value) || 0.45 })
+                update({ marginRight: parseFloat(e.target.value) || 1.15 })
               }
             />
           </div>
