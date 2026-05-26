@@ -83,12 +83,23 @@ export interface Section {
   data: SectionData;
 }
 
+export type FontFamily =
+  | "Times-Roman"
+  | "Helvetica"
+  | "Courier"
+  | "Roboto"
+  | "Lato"
+  | "EBGaramond"
+  | "OpenSans"
+  | "Calibri";
+
 export interface PageSettings {
   marginTop: number;
   marginBottom: number;
   marginLeft: number;
   marginRight: number;
   fontSize: number;
+  fontFamily: FontFamily;
 }
 
 export interface ResumeData {

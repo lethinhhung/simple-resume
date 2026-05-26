@@ -22,6 +22,58 @@ import {
 
 Font.registerHyphenationCallback((word) => [word]);
 
+const GFONTS = "https://cdn.jsdelivr.net/gh/google/fonts@main/ofl";
+
+Font.register({
+  family: "Roboto",
+  fonts: [
+    { src: `${GFONTS}/roboto/Roboto%5Bwdth%2Cwght%5D.ttf`, fontWeight: "normal" },
+    { src: `${GFONTS}/roboto/Roboto%5Bwdth%2Cwght%5D.ttf`, fontWeight: "bold" },
+    { src: `${GFONTS}/roboto/Roboto-Italic%5Bwdth%2Cwght%5D.ttf`, fontStyle: "italic" },
+    { src: `${GFONTS}/roboto/Roboto-Italic%5Bwdth%2Cwght%5D.ttf`, fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
+Font.register({
+  family: "Lato",
+  fonts: [
+    { src: `${GFONTS}/lato/Lato-Regular.ttf` },
+    { src: `${GFONTS}/lato/Lato-Bold.ttf`, fontWeight: "bold" },
+    { src: `${GFONTS}/lato/Lato-Italic.ttf`, fontStyle: "italic" },
+    { src: `${GFONTS}/lato/Lato-BoldItalic.ttf`, fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
+Font.register({
+  family: "EBGaramond",
+  fonts: [
+    { src: `${GFONTS}/ebgaramond/EBGaramond%5Bwght%5D.ttf` },
+    { src: `${GFONTS}/ebgaramond/EBGaramond%5Bwght%5D.ttf`, fontWeight: "bold" },
+    { src: `${GFONTS}/ebgaramond/EBGaramond-Italic%5Bwght%5D.ttf`, fontStyle: "italic" },
+    { src: `${GFONTS}/ebgaramond/EBGaramond-Italic%5Bwght%5D.ttf`, fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
+Font.register({
+  family: "OpenSans",
+  fonts: [
+    { src: `${GFONTS}/opensans/OpenSans%5Bwdth%2Cwght%5D.ttf` },
+    { src: `${GFONTS}/opensans/OpenSans%5Bwdth%2Cwght%5D.ttf`, fontWeight: "bold" },
+    { src: `${GFONTS}/opensans/OpenSans-Italic%5Bwdth%2Cwght%5D.ttf`, fontStyle: "italic" },
+    { src: `${GFONTS}/opensans/OpenSans-Italic%5Bwdth%2Cwght%5D.ttf`, fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
+Font.register({
+  family: "Calibri",
+  fonts: [
+    { src: `${GFONTS}/carlito/Carlito-Regular.ttf` },
+    { src: `${GFONTS}/carlito/Carlito-Bold.ttf`, fontWeight: "bold" },
+    { src: `${GFONTS}/carlito/Carlito-Italic.ttf`, fontStyle: "italic" },
+    { src: `${GFONTS}/carlito/Carlito-BoldItalic.ttf`, fontWeight: "bold", fontStyle: "italic" },
+  ],
+});
+
 function buildStyles(ps: PageSettings) {
   const BASE = ps.fontSize;
   return StyleSheet.create({
@@ -30,7 +82,7 @@ function buildStyles(ps: PageSettings) {
       paddingBottom: ps.marginBottom * 72,
       paddingLeft: ps.marginLeft * 72,
       paddingRight: ps.marginRight * 72,
-      fontFamily: "Times-Roman",
+      fontFamily: ps.fontFamily,
       fontSize: BASE,
       lineHeight: 1.2,
       color: "#000",
@@ -61,7 +113,6 @@ function buildStyles(ps: PageSettings) {
       fontSize: BASE,
       fontWeight: "bold",
       textAlign: "center",
-      textDecoration: "underline",
       marginBottom: 2,
     },
     row: {

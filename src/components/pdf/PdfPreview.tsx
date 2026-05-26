@@ -41,16 +41,22 @@ export function PdfPreview() {
 
   if (!url) {
     return (
-      <div className="pdf-preview-loading">Generating preview...</div>
+      <div className="flex items-center justify-center h-full text-neutral-300 text-sm">
+        Generating preview...
+      </div>
     );
   }
 
   return (
-    <div className="pdf-preview-container">
-      {generating && <div className="pdf-preview-updating">Updating...</div>}
+    <div className="relative w-full h-full">
+      {generating && (
+        <div className="absolute top-2 right-2 text-xs text-white bg-black/50 px-2 py-0.5 rounded z-10">
+          Updating...
+        </div>
+      )}
       <iframe
         src={`${url}#toolbar=0&navpanes=0`}
-        className="pdf-preview-iframe"
+        className="w-full h-full border-none"
         title="Resume Preview"
       />
     </div>

@@ -1,5 +1,10 @@
+import { X } from "lucide-react";
 import { EntrySection, EntryItem } from "@/lib/types";
 import { generateId } from "@/lib/id";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   data: EntrySection;
@@ -73,75 +78,75 @@ export function EntryEditor({ data, onChange }: Props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {data.entries.map((entry) => (
-        <div key={entry.id} className="editor-entry-card">
-          <div className="editor-entry-header">
-            <span className="editor-entry-label">
+        <div
+          key={entry.id}
+          className="rounded-md border border-border p-3 space-y-2"
+        >
+          <div className="flex items-center justify-between pb-2 border-b">
+            <span className="text-sm font-medium truncate">
               {entry.title || "Untitled Entry"}
             </span>
-            <button
-              className="editor-btn-remove"
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              className="text-muted-foreground hover:text-destructive shrink-0"
               onClick={() => removeEntry(entry.id)}
             >
-              &times;
-            </button>
+              <X className="size-3.5" />
+            </Button>
           </div>
 
-          <div className="editor-grid-2">
-            <label className="editor-label">
-              Title
-              <input
-                className="editor-input"
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <Label className="text-xs">Title</Label>
+              <Input
                 value={entry.title}
                 onChange={(e) =>
                   updateEntry(entry.id, { title: e.target.value })
                 }
                 placeholder="Company or project name"
               />
-            </label>
-            <label className="editor-label">
-              Subtitle
-              <input
-                className="editor-input"
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Subtitle</Label>
+              <Input
                 value={entry.subtitle}
                 onChange={(e) =>
                   updateEntry(entry.id, { subtitle: e.target.value })
                 }
                 placeholder="Role or position"
               />
-            </label>
+            </div>
           </div>
 
-          <div className="editor-grid-2">
-            <label className="editor-label">
-              Location
-              <input
-                className="editor-input"
+          <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-1">
+              <Label className="text-xs">Location</Label>
+              <Input
                 value={entry.location}
                 onChange={(e) =>
                   updateEntry(entry.id, { location: e.target.value })
                 }
                 placeholder="City, Country"
               />
-            </label>
-            <label className="editor-label">
-              Dates
-              <input
-                className="editor-input"
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs">Dates</Label>
+              <Input
                 value={entry.dates}
                 onChange={(e) =>
                   updateEntry(entry.id, { dates: e.target.value })
                 }
                 placeholder="MM/YYYY - MM/YYYY"
               />
-            </label>
+            </div>
           </div>
 
-          <label className="editor-label">
-            Description
-            <textarea
-              className="editor-textarea"
+          <div className="space-y-1">
+            <Label className="text-xs">Description</Label>
+            <Textarea
               value={entry.description}
               onChange={(e) =>
                 updateEntry(entry.id, { description: e.target.value })
@@ -149,40 +154,49 @@ export function EntryEditor({ data, onChange }: Props) {
               placeholder="Brief description (optional)"
               rows={2}
             />
-          </label>
+          </div>
 
-          <div className="editor-label">
-            Bullet Points
+          <div className="space-y-1.5">
+            <Label className="text-xs">Bullet Points</Label>
             {entry.bullets.map((bullet, i) => (
-              <div key={i} className="editor-row">
-                <input
-                  className="editor-input flex-1"
+              <div key={i} className="flex items-center gap-1.5">
+                <Input
                   value={bullet}
                   onChange={(e) =>
                     updateBullet(entry.id, i, e.target.value)
                   }
                   placeholder="Achievement or responsibility"
+                  className="flex-1"
                 />
-                <button
-                  className="editor-btn-remove"
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  className="text-muted-foreground hover:text-destructive shrink-0"
                   onClick={() => removeBullet(entry.id, i)}
                 >
-                  &times;
-                </button>
+                  <X className="size-3.5" />
+                </Button>
               </div>
             ))}
-            <button
-              className="editor-btn-add"
+            <Button
+              variant="outline"
+              size="xs"
+              className="border-dashed"
               onClick={() => addBullet(entry.id)}
             >
               + Add Bullet
-            </button>
+            </Button>
           </div>
         </div>
       ))}
-      <button className="editor-btn-add" onClick={addEntry}>
+      <Button
+        variant="outline"
+        size="xs"
+        className="border-dashed"
+        onClick={addEntry}
+      >
         + Add Entry
-      </button>
+      </Button>
     </div>
   );
 }

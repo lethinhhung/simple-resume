@@ -1,8 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import {
+  ChevronDown,
+  ChevronRight,
+  ArrowUp,
+  ArrowDown,
+  Eye,
+  EyeOff,
+  X,
+} from "lucide-react";
 import { useResumeStore } from "@/store/resume-store";
 import { Section, SectionType } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { HeaderEditor } from "./HeaderEditor";
 import { PageSettingsEditor } from "./PageSettingsEditor";
 import { SectionEditor } from "./SectionEditor";
@@ -20,10 +33,9 @@ export function EditorPanel() {
   const addSection = useResumeStore((s) => s.addSection);
 
   return (
-    <div className="editor-panel">
+    <div className="space-y-3 p-3">
       <PageSettingsEditor />
       <HeaderEditor />
-
       {sections.map((section, index) => (
         <SectionBlock
           key={section.id}
@@ -32,7 +44,6 @@ export function EditorPanel() {
           total={sections.length}
         />
       ))}
-
       <AddSectionButton onAdd={addSection} />
     </div>
   );
@@ -54,97 +65,118 @@ function SectionBlock({
   const moveSection = useResumeStore((s) => s.moveSection);
 
   return (
-    <div
-      className="editor-section"
-      style={{ opacity: section.enabled ? 1 : 0.5 }}
+    <Card
+      size="sm"
+      className={section.enabled ? "" : "opacity-50"}
     >
-      <div className="section-controls">
-        <div className="section-controls-left">
-          <button
-            className="section-collapse-btn"
-            onClick={() => setCollapsed(!collapsed)}
-            title={collapsed ? "Expand" : "Collapse"}
-          >
-            {collapsed ? "▶" : "▼"}
-          </button>
-          <input
-            className="section-label-input"
-            value={section.label}
-            onChange={(e) => renameSection(section.id, e.target.value)}
-          />
-          <span className="editor-type-badge">{section.data.type}</span>
+      <CardContent className="space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 min-w-0 flex-1">
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => setCollapsed(!collapsed)}
+            >
+              {collapsed ? (
+                <ChevronRight className="size-3.5" />
+              ) : (
+                <ChevronDown className="size-3.5" />
+              )}
+            </Button>
+            <Input
+              value={section.label}
+              onChange={(e) => renameSection(section.id, e.target.value)}
+              className="h-7 border-none bg-transparent px-1 font-semibold text-sm shadow-none focus-visible:ring-0 focus-visible:border-b focus-visible:border-ring focus-visible:rounded-none"
+            />
+            <Badge variant="secondary" className="text-[10px] shrink-0">
+              {section.data.type}
+            </Badge>
+          </div>
+          <div className="flex items-center gap-0.5 shrink-0">
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => toggleSection(section.id)}
+              title={section.enabled ? "Hide" : "Show"}
+            >
+              {section.enabled ? (
+                <Eye className="size-3.5" />
+              ) : (
+                <EyeOff className="size-3.5" />
+              )}
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => moveSection(section.id, "up")}
+              disabled={index === 0}
+            >
+              <ArrowUp className="size-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              onClick={() => moveSection(section.id, "down")}
+              disabled={index === total - 1}
+            >
+              <ArrowDown className="size-3.5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              className="text-muted-foreground hover:text-destructive"
+              onClick={() => removeSection(section.id)}
+            >
+              <X className="size-3.5" />
+            </Button>
+          </div>
         </div>
-        <div className="section-controls-right">
-          <button
-            className="section-ctrl-btn"
-            onClick={() => toggleSection(section.id)}
-            title={section.enabled ? "Hide section" : "Show section"}
-          >
-            {section.enabled ? "👁" : "👁‍🗨"}
-          </button>
-          <button
-            className="section-ctrl-btn"
-            onClick={() => moveSection(section.id, "up")}
-            disabled={index === 0}
-            title="Move up"
-          >
-            ↑
-          </button>
-          <button
-            className="section-ctrl-btn"
-            onClick={() => moveSection(section.id, "down")}
-            disabled={index === total - 1}
-            title="Move down"
-          >
-            ↓
-          </button>
-          <button
-            className="section-ctrl-btn section-ctrl-btn-danger"
-            onClick={() => removeSection(section.id)}
-            title="Remove section"
-          >
-            &times;
-          </button>
-        </div>
-      </div>
-
-      {!collapsed && section.enabled && <SectionEditor section={section} />}
-    </div>
+        {!collapsed && section.enabled && <SectionEditor section={section} />}
+      </CardContent>
+    </Card>
   );
 }
 
 function AddSectionButton({ onAdd }: { onAdd: (type: SectionType) => void }) {
   const [open, setOpen] = useState(false);
 
+  if (open) {
+    return (
+      <Card size="sm">
+        <CardContent>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-medium text-muted-foreground">
+              Choose type:
+            </span>
+            {SECTION_TYPE_OPTIONS.map((opt) => (
+              <Button
+                key={opt.type}
+                variant="secondary"
+                size="xs"
+                onClick={() => {
+                  onAdd(opt.type);
+                  setOpen(false);
+                }}
+              >
+                {opt.label}
+              </Button>
+            ))}
+            <Button variant="ghost" size="xs" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <div className="add-section-container">
-      {open ? (
-        <div className="add-section-picker">
-          <span className="add-section-picker-label">Choose type:</span>
-          {SECTION_TYPE_OPTIONS.map((opt) => (
-            <button
-              key={opt.type}
-              className="add-section-type-btn"
-              onClick={() => {
-                onAdd(opt.type);
-                setOpen(false);
-              }}
-            >
-              {opt.label}
-            </button>
-          ))}
-          <button
-            className="add-section-cancel-btn"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </button>
-        </div>
-      ) : (
-        <button className="editor-btn-add w-full" onClick={() => setOpen(true)}>
-          + Add Section
-        </button>
-      )}
-    </div>
+    <Button
+      variant="outline"
+      className="w-full border-dashed"
+      onClick={() => setOpen(true)}
+    >
+      + Add Section
+    </Button>
   );
 }

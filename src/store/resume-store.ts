@@ -7,6 +7,7 @@ import {
   SectionData,
   SectionType,
   PageSettings,
+  FontFamily,
 } from "@/lib/types";
 import { DEFAULT_RESUME } from "@/lib/defaults";
 import { generateId } from "@/lib/id";

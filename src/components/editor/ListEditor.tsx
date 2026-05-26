@@ -1,5 +1,9 @@
+import { X } from "lucide-react";
 import { ListSection } from "@/lib/types";
 import { generateId } from "@/lib/id";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   data: ListSection;
@@ -40,40 +44,44 @@ export function ListEditor({ data, onChange }: Props) {
   return (
     <div className="space-y-2">
       {data.items.map((item) => (
-        <div key={item.id} className="editor-row items-start">
-          <div className="flex-1 space-y-1">
-            <input
-              className="editor-input"
+        <div key={item.id} className="flex items-start gap-1.5">
+          <div className="flex-1 space-y-1.5">
+            <Input
               value={item.name}
               onChange={(e) => updateItem(item.id, "name", e.target.value)}
               placeholder="Name (e.g. certification title)"
             />
-            <div className="editor-grid-2">
-              <input
-                className="editor-input"
+            <div className="grid grid-cols-2 gap-2">
+              <Input
                 value={item.detail}
                 onChange={(e) => updateItem(item.id, "detail", e.target.value)}
                 placeholder="Detail (optional)"
               />
-              <input
-                className="editor-input"
+              <Input
                 value={item.dates}
                 onChange={(e) => updateItem(item.id, "dates", e.target.value)}
                 placeholder="MM/YYYY - MM/YYYY"
               />
             </div>
           </div>
-          <button
-            className="editor-btn-remove"
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            className="text-muted-foreground hover:text-destructive shrink-0 mt-1"
             onClick={() => removeItem(item.id)}
           >
-            &times;
-          </button>
+            <X className="size-3.5" />
+          </Button>
         </div>
       ))}
-      <button className="editor-btn-add" onClick={addItem}>
+      <Button
+        variant="outline"
+        size="xs"
+        className="border-dashed"
+        onClick={addItem}
+      >
         + Add Item
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,5 +1,8 @@
+import { X } from "lucide-react";
 import { SkillsSection } from "@/lib/types";
 import { generateId } from "@/lib/id";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   data: SkillsSection;
@@ -7,7 +10,11 @@ interface Props {
 }
 
 export function SkillsEditor({ data, onChange }: Props) {
-  const updateCategory = (id: string, field: "category" | "values", value: string) => {
+  const updateCategory = (
+    id: string,
+    field: "category" | "values",
+    value: string
+  ) => {
     onChange({
       ...data,
       categories: data.categories.map((c) =>
@@ -36,30 +43,37 @@ export function SkillsEditor({ data, onChange }: Props) {
   return (
     <div className="space-y-2">
       {data.categories.map((cat) => (
-        <div key={cat.id} className="editor-row items-start">
-          <input
-            className="editor-input w-36 shrink-0"
+        <div key={cat.id} className="flex items-start gap-1.5">
+          <Input
             value={cat.category}
             onChange={(e) => updateCategory(cat.id, "category", e.target.value)}
             placeholder="Category"
+            className="w-32 shrink-0"
           />
-          <input
-            className="editor-input flex-1"
+          <Input
             value={cat.values}
             onChange={(e) => updateCategory(cat.id, "values", e.target.value)}
             placeholder="Comma-separated skills"
+            className="flex-1"
           />
-          <button
-            className="editor-btn-remove"
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            className="text-muted-foreground hover:text-destructive shrink-0 mt-1"
             onClick={() => removeCategory(cat.id)}
           >
-            &times;
-          </button>
+            <X className="size-3.5" />
+          </Button>
         </div>
       ))}
-      <button className="editor-btn-add" onClick={addCategory}>
+      <Button
+        variant="outline"
+        size="xs"
+        className="border-dashed"
+        onClick={addCategory}
+      >
         + Add Category
-      </button>
+      </Button>
     </div>
   );
 }

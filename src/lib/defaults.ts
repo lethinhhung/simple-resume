@@ -178,5 +178,6 @@ export const DEFAULT_RESUME: ResumeData = {
     marginLeft: 0.45,
     marginRight: 0.45,
     fontSize: 10,
+    fontFamily: "Times-Roman",
   },
 };

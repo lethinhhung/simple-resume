@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { FileDown } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
+import { Button } from "@/components/ui/button";
 import { useResumeStore } from "@/store/resume-store";
 import { ResumePdf } from "./ResumePdf";
 
@@ -28,12 +30,9 @@ export function ExportButton() {
   }, [resume]);
 
   return (
-    <button
-      className="export-btn"
-      onClick={handleExport}
-      disabled={exporting}
-    >
+    <Button onClick={handleExport} disabled={exporting} size="sm">
+      <FileDown data-icon="inline-start" className="size-4" />
       {exporting ? "Exporting..." : "Download PDF"}
-    </button>
+    </Button>
   );
 }
