@@ -1,0 +1,123 @@
+.resume-page {
+  width: 8.5in;
+  min-height: 11in;
+  padding: 0.5in;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.3;
+  box-sizing: border-box;
+}
+
+/* Header */
+.resume-header {
+  text-align: center;
+  margin-bottom: 4pt;
+}
+
+.resume-name {
+  font-size: 16pt;
+  font-weight: bold;
+  letter-spacing: 0.5pt;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.resume-subtitle {
+  font-size: 10.5pt;
+  font-weight: bold;
+  margin-top: 1pt;
+}
+
+.resume-contacts {
+  font-size: 10pt;
+  margin-top: 1pt;
+}
+
+/* Sections */
+.resume-section {
+  margin-top: 6pt;
+}
+
+.resume-section-title {
+  font-size: 10.5pt;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+  margin: 0 0 3pt 0;
+  padding: 0;
+}
+
+/* Two-column row */
+.resume-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8pt;
+}
+
+.resume-entry-title {
+  font-weight: bold;
+}
+
+.resume-entry-subtitle {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.resume-entry-right {
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Text */
+.resume-text {
+  margin: 1pt 0 0 0;
+}
+
+/* Entries */
+.resume-entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-entry {
+  margin-bottom: 4pt;
+}
+
+.resume-entry:last-child {
+  margin-bottom: 0;
+}
+
+/* Bullets */
+.resume-bullets {
+  list-style: none;
+  margin: 1pt 0 0 0;
+  padding: 0;
+}
+
+.resume-bullet {
+  padding-left: 12pt;
+  text-indent: -8pt;
+}
+
+.resume-bullet::before {
+  content: "- ";
+}
+
+/* Skills */
+.resume-skills {
+  display: flex;
+  flex-direction: column;
+}
+
+.resume-skill-row {
+  line-height: 1.4;
+}
+
+.resume-skill-label {
+  font-weight: bold;
+}
