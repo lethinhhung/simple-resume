@@ -139,3 +139,126 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* Section controls */
+.section-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.section-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.section-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.section-collapse-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  color: #6b7280;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.section-label-input {
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0;
+  min-width: 0;
+  flex: 1;
+}
+
+.section-label-input:focus {
+  border-bottom: 1px solid #6366f1;
+}
+
+.section-ctrl-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #9ca3af;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.section-ctrl-btn:hover:not(:disabled) {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.section-ctrl-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.section-ctrl-btn-danger:hover:not(:disabled) {
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+/* Add section */
+.add-section-container {
+  padding: 0 16px 16px;
+}
+
+.add-section-picker {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.add-section-picker-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.add-section-type-btn {
+  font-size: 12px;
+  background: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.add-section-type-btn:hover {
+  background: #c7d2fe;
+}
+
+.add-section-cancel-btn {
+  font-size: 12px;
+  background: none;
+  color: #6b7280;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.w-full {
+  width: 100%;
+}

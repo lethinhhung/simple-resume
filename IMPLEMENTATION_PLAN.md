@@ -17,14 +17,14 @@
 **Goal**: Build form editor for all section types wired to Zustand store.
 **Success Criteria**: Header fields, section-specific forms, add/remove entries, live preview updates on keystroke.
 **Tests**: Form interaction tests — edit field, verify store update.
-**Status**: In Progress
+**Status**: Complete
 
 ## Stage 4: Section Management
 
 **Goal**: Add/remove/reorder/rename sections, type picker, toggle on/off.
 **Success Criteria**: All section management operations work, multiple sections of same type allowed.
 **Tests**: Section CRUD operations, reorder, toggle.
-**Status**: Not Started
+**Status**: In Progress
 
 ## Stage 5: PDF Export + Responsive Layout
 
