@@ -33,7 +33,7 @@ export function EditorPanel() {
   const addSection = useResumeStore((s) => s.addSection);
 
   return (
-    <div className="space-y-3 p-3">
+    <div className="space-y-4 p-4">
       <PageSettingsEditor />
       <HeaderEditor />
       {sections.map((section, index) => (

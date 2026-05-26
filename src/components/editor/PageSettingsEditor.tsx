@@ -5,7 +5,7 @@ import { FontFamily } from "@/lib/types";
 import { FONT_OPTIONS } from "@/lib/fonts";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import {
   Select,
   SelectContent,
@@ -45,15 +45,12 @@ export function PageSettingsEditor() {
 
           <div className="space-y-1.5">
             <Label className="text-xs">Font Size (pt)</Label>
-            <Input
-              type="number"
+            <NumberInput
+              value={ps.fontSize}
+              onChange={(v) => update({ fontSize: v })}
               min={7}
               max={14}
               step={0.5}
-              value={ps.fontSize}
-              onChange={(e) =>
-                update({ fontSize: parseFloat(e.target.value) || 10 })
-              }
             />
           </div>
         </div>
@@ -61,28 +58,22 @@ export function PageSettingsEditor() {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <Label className="text-xs">Margin Top (cm)</Label>
-            <Input
-              type="number"
+            <NumberInput
+              value={ps.marginTop}
+              onChange={(v) => update({ marginTop: v })}
               min={0.2}
               max={4}
               step={0.1}
-              value={ps.marginTop}
-              onChange={(e) =>
-                update({ marginTop: parseFloat(e.target.value) || 1 })
-              }
             />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs">Margin Bottom (cm)</Label>
-            <Input
-              type="number"
+            <NumberInput
+              value={ps.marginBottom}
+              onChange={(v) => update({ marginBottom: v })}
               min={0.2}
               max={4}
               step={0.1}
-              value={ps.marginBottom}
-              onChange={(e) =>
-                update({ marginBottom: parseFloat(e.target.value) || 1 })
-              }
             />
           </div>
         </div>
@@ -90,28 +81,22 @@ export function PageSettingsEditor() {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <Label className="text-xs">Margin Left (cm)</Label>
-            <Input
-              type="number"
+            <NumberInput
+              value={ps.marginLeft}
+              onChange={(v) => update({ marginLeft: v })}
               min={0.2}
               max={4}
               step={0.1}
-              value={ps.marginLeft}
-              onChange={(e) =>
-                update({ marginLeft: parseFloat(e.target.value) || 1.15 })
-              }
             />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs">Margin Right (cm)</Label>
-            <Input
-              type="number"
+            <NumberInput
+              value={ps.marginRight}
+              onChange={(v) => update({ marginRight: v })}
               min={0.2}
               max={4}
               step={0.1}
-              value={ps.marginRight}
-              onChange={(e) =>
-                update({ marginRight: parseFloat(e.target.value) || 1.15 })
-              }
             />
           </div>
         </div>
