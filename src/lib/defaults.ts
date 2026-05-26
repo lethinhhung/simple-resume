@@ -172,4 +172,11 @@ export const DEFAULT_RESUME: ResumeData = {
       },
     },
   ],
+  pageSettings: {
+    marginTop: 0.4,
+    marginBottom: 0.4,
+    marginLeft: 0.45,
+    marginRight: 0.45,
+    fontSize: 10,
+  },
 };

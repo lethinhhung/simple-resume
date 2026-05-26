@@ -83,7 +83,16 @@ export interface Section {
   data: SectionData;
 }
 
+export interface PageSettings {
+  marginTop: number;
+  marginBottom: number;
+  marginLeft: number;
+  marginRight: number;
+  fontSize: number;
+}
+
 export interface ResumeData {
   header: HeaderBlock;
   sections: Section[];
+  pageSettings: PageSettings;
 }

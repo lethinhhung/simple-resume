@@ -6,6 +6,7 @@ import {
   Section,
   SectionData,
   SectionType,
+  PageSettings,
 } from "@/lib/types";
 import { DEFAULT_RESUME } from "@/lib/defaults";
 import { generateId } from "@/lib/id";
@@ -68,6 +69,7 @@ interface ResumeStore {
   removeSection: (sectionId: string) => void;
   moveSection: (sectionId: string, direction: "up" | "down") => void;
   reorderSections: (fromIndex: number, toIndex: number) => void;
+  updatePageSettings: (settings: Partial<PageSettings>) => void;
   resetResume: () => void;
 }
 
@@ -161,10 +163,33 @@ export const useResumeStore = create<ResumeStore>()(
           return { resume: { ...state.resume, sections } };
         }),
 
+      updatePageSettings: (settings) =>
+        set((state) => ({
+          resume: {
+            ...state.resume,
+            pageSettings: { ...state.resume.pageSettings, ...settings },
+          },
+        })),
+
       resetResume: () => set({ resume: DEFAULT_RESUME }),
     }),
     {
       name: "simple-resume-data",
+      merge: (persisted, current) => {
+        const p = persisted as Partial<ResumeStore> | undefined;
+        if (!p?.resume) return current;
+        return {
+          ...current,
+          resume: {
+            ...current.resume,
+            ...p.resume,
+            pageSettings: {
+              ...current.resume.pageSettings,
+              ...p.resume.pageSettings,
+            },
+          },
+        };
+      },
     }
   )
 );

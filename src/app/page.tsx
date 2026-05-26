@@ -1,15 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useResumeStore } from "@/store/resume-store";
-import { ResumePreview } from "@/components/preview/ResumePreview";
 import { EditorPanel } from "@/components/editor/EditorPanel";
+import { PdfPreview } from "@/components/pdf/PdfPreview";
 import { ExportButton } from "@/components/pdf/ExportButton";
-import "@/components/preview/resume.css";
 import "@/components/editor/editor.css";
 
 export default function Home() {
-  const resume = useResumeStore((s) => s.resume);
   const [mobileTab, setMobileTab] = useState<"editor" | "preview">("editor");
 
   return (
@@ -43,7 +40,7 @@ export default function Home() {
         <div
           className={`app-preview ${mobileTab === "preview" ? "mobile-visible" : "mobile-hidden"}`}
         >
-          <ResumePreview resume={resume} />
+          <PdfPreview />
         </div>
       </div>
     </div>

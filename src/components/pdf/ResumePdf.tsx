@@ -17,94 +17,91 @@ import {
   EducationSection,
   SkillsSection,
   ListSection,
+  PageSettings,
 } from "@/lib/types";
 
-Font.register({
-  family: "Times-Roman",
-  fonts: [
-    { src: "Times-Roman" },
-    { src: "Times-Bold", fontWeight: "bold" },
-    { src: "Times-Italic", fontStyle: "italic" },
-    { src: "Times-BoldItalic", fontWeight: "bold", fontStyle: "italic" },
-  ],
-});
+Font.registerHyphenationCallback((word) => [word]);
 
-const BASE_FONT_SIZE = 10.5;
-
-const s = StyleSheet.create({
-  page: {
-    paddingTop: 36,
-    paddingBottom: 36,
-    paddingHorizontal: 36,
-    fontFamily: "Times-Roman",
-    fontSize: BASE_FONT_SIZE,
-    lineHeight: 1.3,
-    color: "#000",
-  },
-  header: {
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold",
-    letterSpacing: 0.5,
-  },
-  subtitle: {
-    fontSize: BASE_FONT_SIZE,
-    fontWeight: "bold",
-    marginTop: 1,
-  },
-  contacts: {
-    fontSize: 10,
-    marginTop: 1,
-  },
-  section: {
-    marginTop: 6,
-  },
-  sectionTitle: {
-    fontSize: BASE_FONT_SIZE,
-    fontWeight: "bold",
-    textAlign: "center",
-    textDecoration: "underline",
-    marginBottom: 3,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
-  },
-  rowLeft: {
-    flex: 1,
-  },
-  rowRight: {
-    textAlign: "right",
-    flexShrink: 0,
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  boldItalic: {
-    fontWeight: "bold",
-    fontStyle: "italic",
-  },
-  text: {
-    marginTop: 1,
-  },
-  entry: {
-    marginBottom: 4,
-  },
-  bullet: {
-    paddingLeft: 12,
-    marginTop: 0,
-  },
-  skillRow: {
-    lineHeight: 1.4,
-  },
-});
+function buildStyles(ps: PageSettings) {
+  const BASE = ps.fontSize;
+  return StyleSheet.create({
+    page: {
+      paddingTop: ps.marginTop * 72,
+      paddingBottom: ps.marginBottom * 72,
+      paddingLeft: ps.marginLeft * 72,
+      paddingRight: ps.marginRight * 72,
+      fontFamily: "Times-Roman",
+      fontSize: BASE,
+      lineHeight: 1.2,
+      color: "#000",
+    },
+    header: {
+      alignItems: "center",
+      marginBottom: 2,
+    },
+    name: {
+      fontSize: BASE * 1.45,
+      fontWeight: "bold",
+      letterSpacing: 0.5,
+      lineHeight: 1.2,
+    },
+    subtitle: {
+      fontSize: BASE,
+      fontWeight: "bold",
+      marginTop: 1,
+    },
+    contacts: {
+      fontSize: BASE * 0.92,
+      marginTop: 1,
+    },
+    section: {
+      marginTop: 4,
+    },
+    sectionTitle: {
+      fontSize: BASE,
+      fontWeight: "bold",
+      textAlign: "center",
+      textDecoration: "underline",
+      marginBottom: 2,
+    },
+    row: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+    },
+    rowRight: {
+      textAlign: "right",
+      flexShrink: 0,
+      marginLeft: 8,
+    },
+    bold: {
+      fontWeight: "bold",
+    },
+    boldItalic: {
+      fontWeight: "bold",
+      fontStyle: "italic",
+    },
+    text: {
+      marginTop: 1,
+    },
+    entry: {
+      marginBottom: 2,
+    },
+    entryLast: {
+      marginBottom: 0,
+    },
+    bullet: {
+      paddingLeft: 10,
+    },
+    skillRow: {
+      lineHeight: 1.15,
+    },
+  });
+}
 
 export function ResumePdf({ resume }: { resume: ResumeData }) {
   const enabledSections = resume.sections.filter((sec) => sec.enabled);
+  const s = buildStyles(resume.pageSettings);
 
   return (
     <Document>
@@ -125,47 +122,64 @@ export function ResumePdf({ resume }: { resume: ResumeData }) {
         </View>
 
         {enabledSections.map((section) => (
-          <SectionBlock key={section.id} section={section} />
+          <SectionBlock key={section.id} section={section} styles={s} />
         ))}
       </Page>
     </Document>
   );
 }
 
-function SectionBlock({ section }: { section: Section }) {
+function SectionBlock({
+  section,
+  styles: s,
+}: {
+  section: Section;
+  styles: ReturnType<typeof buildStyles>;
+}) {
   return (
     <View style={s.section}>
       <Text style={s.sectionTitle}>{section.label}</Text>
-      <SectionContent data={section.data} />
+      <SectionContent data={section.data} styles={s} />
     </View>
   );
 }
 
-function SectionContent({ data }: { data: SectionData }) {
+function SectionContent({
+  data,
+  styles: s,
+}: {
+  data: SectionData;
+  styles: ReturnType<typeof buildStyles>;
+}) {
   switch (data.type) {
     case "text":
-      return <PdfText data={data} />;
+      return <PdfText data={data} styles={s} />;
     case "entry":
-      return <PdfEntry data={data} />;
+      return <PdfEntry data={data} styles={s} />;
     case "education":
-      return <PdfEducation data={data} />;
+      return <PdfEducation data={data} styles={s} />;
     case "skills":
-      return <PdfSkills data={data} />;
+      return <PdfSkills data={data} styles={s} />;
     case "list":
-      return <PdfList data={data} />;
+      return <PdfList data={data} styles={s} />;
   }
 }
 
-function PdfText({ data }: { data: TextSection }) {
+type S = ReturnType<typeof buildStyles>;
+
+function PdfText({ data, styles: s }: { data: TextSection; styles: S }) {
   if (!data.content) return null;
   return <Text style={s.text}>{data.content}</Text>;
 }
 
-function PdfEntry({ data }: { data: EntrySection }) {
+function PdfEntry({ data, styles: s }: { data: EntrySection; styles: S }) {
   return (
     <View>
-      {data.entries.map((entry) => (
-        <View key={entry.id} style={s.entry}>
+      {data.entries.map((entry, idx) => (
+        <View
+          key={entry.id}
+          style={idx < data.entries.length - 1 ? s.entry : s.entryLast}
+        >
           <View style={s.row}>
             <Text style={s.bold}>{entry.title}</Text>
             {entry.location ? (
@@ -175,7 +189,7 @@ function PdfEntry({ data }: { data: EntrySection }) {
             ) : null}
           </View>
           {entry.location ? (
-            (entry.subtitle || entry.dates) ? (
+            entry.subtitle || entry.dates ? (
               <View style={s.row}>
                 <Text style={s.boldItalic}>{entry.subtitle}</Text>
                 {entry.dates ? (
@@ -205,11 +219,20 @@ function PdfEntry({ data }: { data: EntrySection }) {
   );
 }
 
-function PdfEducation({ data }: { data: EducationSection }) {
+function PdfEducation({
+  data,
+  styles: s,
+}: {
+  data: EducationSection;
+  styles: S;
+}) {
   return (
     <View>
-      {data.entries.map((entry) => (
-        <View key={entry.id} style={s.entry}>
+      {data.entries.map((entry, idx) => (
+        <View
+          key={entry.id}
+          style={idx < data.entries.length - 1 ? s.entry : s.entryLast}
+        >
           <View style={s.row}>
             <Text style={s.bold}>{entry.institution.toUpperCase()}</Text>
             {entry.location ? (
@@ -234,7 +257,7 @@ function PdfEducation({ data }: { data: EducationSection }) {
   );
 }
 
-function PdfSkills({ data }: { data: SkillsSection }) {
+function PdfSkills({ data, styles: s }: { data: SkillsSection; styles: S }) {
   return (
     <View>
       {data.categories.map((cat) => (
@@ -246,7 +269,7 @@ function PdfSkills({ data }: { data: SkillsSection }) {
   );
 }
 
-function PdfList({ data }: { data: ListSection }) {
+function PdfList({ data, styles: s }: { data: ListSection; styles: S }) {
   return (
     <View>
       {data.items.map((item) => (

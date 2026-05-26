@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useResumeStore } from "@/store/resume-store";
 import { Section, SectionType } from "@/lib/types";
 import { HeaderEditor } from "./HeaderEditor";
+import { PageSettingsEditor } from "./PageSettingsEditor";
 import { SectionEditor } from "./SectionEditor";
 
 const SECTION_TYPE_OPTIONS: { type: SectionType; label: string }[] = [
@@ -20,6 +21,7 @@ export function EditorPanel() {
 
   return (
     <div className="editor-panel">
+      <PageSettingsEditor />
       <HeaderEditor />
 
       {sections.map((section, index) => (
