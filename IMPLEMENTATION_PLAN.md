@@ -24,11 +24,11 @@
 **Goal**: Add/remove/reorder/rename sections, type picker, toggle on/off.
 **Success Criteria**: All section management operations work, multiple sections of same type allowed.
 **Tests**: Section CRUD operations, reorder, toggle.
-**Status**: In Progress
+**Status**: Complete
 
 ## Stage 5: PDF Export + Responsive Layout
 
 **Goal**: Client-side PDF generation matching preview, responsive layout.
 **Success Criteria**: One-click PDF download, desktop side-by-side, mobile tabbed, one-page constraint with overflow compression.
 **Tests**: PDF generates without error, responsive breakpoints work.
-**Status**: Not Started
+**Status**: Complete
