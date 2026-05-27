@@ -48,16 +48,15 @@ export function PdfPreview() {
   }
 
   return (
-    <div className="relative w-full h-full overflow-auto preview-scroll">
+    <div className="relative w-full h-full overflow-auto preview-scroll p-8 md:p-0">
       {generating && (
-        <div className="absolute top-3 right-3 text-[10px] text-muted-foreground bg-background/80 px-2 py-0.5 z-10">
+        <div className="absolute top-12 right-12 md:top-3 md:right-3 text-[10px] text-muted-foreground bg-background/80 px-2 py-0.5 z-10">
           Updating...
         </div>
       )}
       <iframe
         src={`${url}#toolbar=0&navpanes=0&scrollbar=0`}
-        className="w-full h-full border-none"
-        style={{ minWidth: 600, minHeight: "100%" }}
+        className="border-none w-[600px] h-[776px] pointer-events-none md:w-full md:h-full md:min-w-[600px] md:min-h-full md:pointer-events-auto"
         title="Resume Preview"
       />
     </div>
