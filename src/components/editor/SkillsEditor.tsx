@@ -41,14 +41,14 @@ export function SkillsEditor({ data, onChange }: Props) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {data.categories.map((cat) => (
         <div key={cat.id} className="flex items-start gap-1.5">
           <Input
             value={cat.category}
             onChange={(e) => updateCategory(cat.id, "category", e.target.value)}
             placeholder="Category"
-            className="w-32 shrink-0"
+            className="w-28 shrink-0"
           />
           <Input
             value={cat.values}
@@ -62,18 +62,16 @@ export function SkillsEditor({ data, onChange }: Props) {
             className="text-muted-foreground hover:text-destructive shrink-0 mt-1"
             onClick={() => removeCategory(cat.id)}
           >
-            <X className="size-3.5" />
+            <X className="size-3" />
           </Button>
         </div>
       ))}
-      <Button
-        variant="outline"
-        size="xs"
-        className="border-dashed"
+      <button
+        className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         onClick={addCategory}
       >
         + Add Category
-      </Button>
+      </button>
     </div>
   );
 }

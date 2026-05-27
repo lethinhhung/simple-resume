@@ -2,9 +2,7 @@
 
 import { X } from "lucide-react";
 import { useResumeStore } from "@/store/resume-store";
-import { ContactItem } from "@/lib/types";
 import { generateId } from "@/lib/id";
-import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -34,12 +32,14 @@ export function HeaderEditor() {
   };
 
   return (
-    <Card size="sm">
-      <CardContent className="space-y-3">
-        <h3 className="text-sm font-semibold">Header</h3>
+    <div className="border-b border-border">
+      <div className="px-5 py-4 space-y-4">
+        <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Header
+        </h3>
 
         <div className="space-y-1.5">
-          <Label className="text-xs">Name</Label>
+          <Label className="text-xs text-muted-foreground">Name</Label>
           <Input
             value={header.name}
             onChange={(e) => updateHeader({ name: e.target.value })}
@@ -48,7 +48,7 @@ export function HeaderEditor() {
         </div>
 
         <div className="space-y-1.5">
-          <Label className="text-xs">Subtitle</Label>
+          <Label className="text-xs text-muted-foreground">Subtitle</Label>
           <Input
             value={header.subtitle}
             onChange={(e) => updateHeader({ subtitle: e.target.value })}
@@ -56,8 +56,8 @@ export function HeaderEditor() {
           />
         </div>
 
-        <div className="space-y-1.5">
-          <Label className="text-xs">Contact Info</Label>
+        <div className="space-y-2">
+          <Label className="text-xs text-muted-foreground">Contact Info</Label>
           {header.contacts.map((contact) => (
             <div key={contact.id} className="flex items-center gap-1.5">
               <Input
@@ -72,20 +72,18 @@ export function HeaderEditor() {
                 className="text-muted-foreground hover:text-destructive shrink-0"
                 onClick={() => removeContact(contact.id)}
               >
-                <X className="size-3.5" />
+                <X className="size-3" />
               </Button>
             </div>
           ))}
-          <Button
-            variant="outline"
-            size="xs"
-            className="border-dashed"
+          <button
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             onClick={addContact}
           >
             + Add Contact
-          </Button>
+          </button>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

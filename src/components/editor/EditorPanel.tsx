@@ -14,8 +14,6 @@ import { useResumeStore } from "@/store/resume-store";
 import { Section, SectionType } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { HeaderEditor } from "./HeaderEditor";
 import { PageSettingsEditor } from "./PageSettingsEditor";
 import { SectionEditor } from "./SectionEditor";
@@ -33,7 +31,7 @@ export function EditorPanel() {
   const addSection = useResumeStore((s) => s.addSection);
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-px">
       <PageSettingsEditor />
       <HeaderEditor />
       {sections.map((section, index) => (
@@ -65,16 +63,16 @@ function SectionBlock({
   const moveSection = useResumeStore((s) => s.moveSection);
 
   return (
-    <Card
-      size="sm"
-      className={section.enabled ? "" : "opacity-50"}
+    <div
+      className={`border-b border-border transition-opacity ${
+        section.enabled ? "" : "opacity-40"
+      }`}
     >
-      <CardContent className="space-y-3">
+      <div className="px-5 py-3">
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 min-w-0 flex-1">
-            <Button
-              variant="ghost"
-              size="icon-xs"
+          <div className="flex items-center gap-1 min-w-0 flex-1">
+            <button
+              className="text-muted-foreground hover:text-foreground transition-colors p-0.5"
               onClick={() => setCollapsed(!collapsed)}
             >
               {collapsed ? (
@@ -82,17 +80,17 @@ function SectionBlock({
               ) : (
                 <ChevronDown className="size-3.5" />
               )}
-            </Button>
+            </button>
             <Input
               value={section.label}
               onChange={(e) => renameSection(section.id, e.target.value)}
-              className="h-7 border-none bg-transparent px-1 font-semibold text-sm shadow-none focus-visible:ring-0 focus-visible:border-b focus-visible:border-ring focus-visible:rounded-none"
+              className="h-7 border-none bg-transparent px-1 font-medium text-sm shadow-none focus-visible:ring-0 focus-visible:border-b focus-visible:border-foreground focus-visible:rounded-none"
             />
-            <Badge variant="secondary" className="text-[10px] shrink-0">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground shrink-0">
               {section.data.type}
-            </Badge>
+            </span>
           </div>
-          <div className="flex items-center gap-0.5 shrink-0">
+          <div className="flex items-center shrink-0">
             <Button
               variant="ghost"
               size="icon-xs"
@@ -100,9 +98,9 @@ function SectionBlock({
               title={section.enabled ? "Hide" : "Show"}
             >
               {section.enabled ? (
-                <Eye className="size-3.5" />
+                <Eye className="size-3" />
               ) : (
-                <EyeOff className="size-3.5" />
+                <EyeOff className="size-3" />
               )}
             </Button>
             <Button
@@ -111,7 +109,7 @@ function SectionBlock({
               onClick={() => moveSection(section.id, "up")}
               disabled={index === 0}
             >
-              <ArrowUp className="size-3.5" />
+              <ArrowUp className="size-3" />
             </Button>
             <Button
               variant="ghost"
@@ -119,7 +117,7 @@ function SectionBlock({
               onClick={() => moveSection(section.id, "down")}
               disabled={index === total - 1}
             >
-              <ArrowDown className="size-3.5" />
+              <ArrowDown className="size-3" />
             </Button>
             <Button
               variant="ghost"
@@ -127,13 +125,17 @@ function SectionBlock({
               className="text-muted-foreground hover:text-destructive"
               onClick={() => removeSection(section.id)}
             >
-              <X className="size-3.5" />
+              <X className="size-3" />
             </Button>
           </div>
         </div>
-        {!collapsed && section.enabled && <SectionEditor section={section} />}
-      </CardContent>
-    </Card>
+        {!collapsed && section.enabled && (
+          <div className="mt-3">
+            <SectionEditor section={section} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -142,41 +144,42 @@ function AddSectionButton({ onAdd }: { onAdd: (type: SectionType) => void }) {
 
   if (open) {
     return (
-      <Card size="sm">
-        <CardContent>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs font-medium text-muted-foreground">
-              Choose type:
-            </span>
-            {SECTION_TYPE_OPTIONS.map((opt) => (
-              <Button
-                key={opt.type}
-                variant="secondary"
-                size="xs"
-                onClick={() => {
-                  onAdd(opt.type);
-                  setOpen(false);
-                }}
-              >
-                {opt.label}
-              </Button>
-            ))}
-            <Button variant="ghost" size="xs" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="px-5 py-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-muted-foreground mr-1">
+            Add section:
+          </span>
+          {SECTION_TYPE_OPTIONS.map((opt) => (
+            <button
+              key={opt.type}
+              className="text-xs px-2.5 py-1 border border-border text-foreground hover:bg-muted transition-colors cursor-pointer"
+              onClick={() => {
+                onAdd(opt.type);
+                setOpen(false);
+              }}
+            >
+              {opt.label}
+            </button>
+          ))}
+          <button
+            className="text-xs px-2.5 py-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Button
-      variant="outline"
-      className="w-full border-dashed"
-      onClick={() => setOpen(true)}
-    >
-      + Add Section
-    </Button>
+    <div className="px-5 py-4">
+      <button
+        className="w-full py-2 text-xs text-muted-foreground border border-dashed border-border hover:text-foreground hover:border-foreground transition-colors cursor-pointer"
+        onClick={() => setOpen(true)}
+      >
+        + Add Section
+      </button>
+    </div>
   );
 }

@@ -2,7 +2,6 @@ import { X } from "lucide-react";
 import { ListSection } from "@/lib/types";
 import { generateId } from "@/lib/id";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 interface Props {
@@ -70,18 +69,16 @@ export function ListEditor({ data, onChange }: Props) {
             className="text-muted-foreground hover:text-destructive shrink-0 mt-1"
             onClick={() => removeItem(item.id)}
           >
-            <X className="size-3.5" />
+            <X className="size-3" />
           </Button>
         </div>
       ))}
-      <Button
-        variant="outline"
-        size="xs"
-        className="border-dashed"
+      <button
+        className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         onClick={addItem}
       >
         + Add Item
-      </Button>
+      </button>
     </div>
   );
 }

@@ -111,45 +111,46 @@ export const DEFAULT_RESUME: ResumeData = {
         type: "entry",
         entries: [
           {
-            id: "p1",
-            title: "GUAVA MVP - HYPERLOCAL MARKETPLACE PLATFORM (STRAPBUILD)",
-            subtitle: "Full-Stack Engineer",
+            id: "p0",
+            title: "SIMPLE RESUME",
+            subtitle: "github.com/lethinhhung/simple-resume",
             location: "",
-            dates: "05/2026 - 06/2026",
+            dates: "05/2026 - Present",
             description:
-              "Hyperlocal marketplace application inspired by neighborhood-based community commerce platforms.",
+              "An ATS-friendly resume builder with real-time PDF preview and a minimalist Swiss-style UI.",
             bullets: [
-              "Built end-to-end marketplace and neighborhood-based product features using React Native and TypeScript.",
-              "Implemented location-based flows, listing systems, real-time interactions, and map integrations.",
-              "Applied spec-driven and agentic workflows to improve development speed and consistency.",
+              "Built a split-pane editor with live PDF generation using react-pdf/renderer and Zustand for state management.",
+              "Designed a minimalist UI with sharp geometry, monochromatic palette, and custom scrollbar styling.",
+              "Implemented flexible section system supporting text, entry, education, skills, and list types with reordering.",
+            ],
+          },
+          {
+            id: "p1",
+            title: "FAST-CARDS",
+            subtitle: "github.com/lethinhhung/fast-cards",
+            location: "",
+            dates: "05/2026 - Present",
+            description:
+              "A web-based flashcard study app for vocabulary learning with smart requeue for incorrect answers.",
+            bullets: [
+              "Built an interactive study system with a smart requeue algorithm that resurfaces incorrect cards for reinforcement.",
+              "Implemented data portability with JSON/CSV export/import and cross-tab sync via localStorage observer pattern.",
+              "Developed comprehensive test suite using Vitest and React Testing Library.",
             ],
           },
           {
             id: "p2",
-            title:
-              "PANTRY MVP - ANONYMOUS WORKPLACE COMMUNITY PLATFORM (STRAPBUILD)",
-            subtitle: "Full-Stack Engineer",
+            title: "NOTENODES",
+            subtitle: "github.com/lethinhhung/notenodes",
             location: "",
-            dates: "03/2026 - 05/2026",
+            dates: "09/2025 - Present",
             description:
-              "Social platform for anonymous workplace communities, reviews, and messaging.",
+              "A modern note-taking web app with rich text editing, multi-format import/export, and visual customization.",
             bullets: [
-              "Built end-to-end product features across mobile, web, backend integrations, and infrastructure workflows.",
-              "Successfully launched the app to Google Play and Apple App Store.",
-              "Used agentic workflows extensively to speed up development, testing, debugging, and release processes.",
-            ],
-          },
-          {
-            id: "p3",
-            title: "BOLTB MOBILE COMMERCE APP (STRAPBUILD)",
-            subtitle: "React Native Engineer",
-            location: "",
-            dates: "07/2025 - 03/2026",
-            description:
-              "Live-commerce platform combining livestream shopping, marketplace, auctions, and real-time interactions.",
-            bullets: [
-              "Built React Native features for livestreaming, chat, and marketplace flows.",
-              "Integrated WebSocket/OpenAPI services and fixed real-time synchronization issues.",
+              "Built a rich text editor using BlockNote with multi-format export/import support (Markdown, HTML, JSON, plain text).",
+              "Implemented visual customization including glassmorphism backgrounds, grid overlays, and dark/light theme toggling.",
+              "Added internationalization for English and Vietnamese using react-i18next with server-side rendering.",
+              "Used Redux Toolkit for state management with localStorage persistence across sessions.",
             ],
           },
         ],
@@ -173,11 +174,11 @@ export const DEFAULT_RESUME: ResumeData = {
     },
   ],
   pageSettings: {
-    marginTop: 1,
-    marginBottom: 1,
-    marginLeft: 1.15,
-    marginRight: 1.15,
+    marginTop: 1.5,
+    marginBottom: 1.5,
+    marginLeft: 1.5,
+    marginRight: 1.5,
     fontSize: 10,
-    fontFamily: "Times-Roman",
+    fontFamily: "Calibri",
   },
 };

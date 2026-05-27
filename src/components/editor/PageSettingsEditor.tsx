@@ -3,7 +3,6 @@
 import { useResumeStore } from "@/store/resume-store";
 import { FontFamily } from "@/lib/types";
 import { FONT_OPTIONS } from "@/lib/fonts";
-import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { NumberInput } from "@/components/ui/number-input";
 import {
@@ -19,13 +18,15 @@ export function PageSettingsEditor() {
   const update = useResumeStore((s) => s.updatePageSettings);
 
   return (
-    <Card size="sm">
-      <CardContent className="space-y-3">
-        <h3 className="text-sm font-semibold">Page Settings</h3>
+    <div className="border-b border-border">
+      <div className="px-5 py-4 space-y-4">
+        <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          Page Settings
+        </h3>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Font Family</Label>
+            <Label className="text-xs text-muted-foreground">Font Family</Label>
             <Select
               value={ps.fontFamily}
               onValueChange={(v) => update({ fontFamily: v as FontFamily })}
@@ -44,7 +45,7 @@ export function PageSettingsEditor() {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs">Font Size (pt)</Label>
+            <Label className="text-xs text-muted-foreground">Font Size (pt)</Label>
             <NumberInput
               value={ps.fontSize}
               onChange={(v) => update({ fontSize: v })}
@@ -55,9 +56,9 @@ export function PageSettingsEditor() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-4 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Top (cm)</Label>
+            <Label className="text-xs text-muted-foreground">Top</Label>
             <NumberInput
               value={ps.marginTop}
               onChange={(v) => update({ marginTop: v })}
@@ -67,7 +68,7 @@ export function PageSettingsEditor() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Bottom (cm)</Label>
+            <Label className="text-xs text-muted-foreground">Bottom</Label>
             <NumberInput
               value={ps.marginBottom}
               onChange={(v) => update({ marginBottom: v })}
@@ -76,11 +77,8 @@ export function PageSettingsEditor() {
               step={0.1}
             />
           </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Left (cm)</Label>
+            <Label className="text-xs text-muted-foreground">Left</Label>
             <NumberInput
               value={ps.marginLeft}
               onChange={(v) => update({ marginLeft: v })}
@@ -90,7 +88,7 @@ export function PageSettingsEditor() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label className="text-xs">Margin Right (cm)</Label>
+            <Label className="text-xs text-muted-foreground">Right</Label>
             <NumberInput
               value={ps.marginRight}
               onChange={(v) => update({ marginRight: v })}
@@ -100,7 +98,7 @@ export function PageSettingsEditor() {
             />
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

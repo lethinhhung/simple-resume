@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { FileDown } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 import { pdf } from "@react-pdf/renderer";
 import { Button } from "@/components/ui/button";
 import { useResumeStore } from "@/store/resume-store";
@@ -31,8 +31,8 @@ export function ExportButton() {
 
   return (
     <Button onClick={handleExport} disabled={exporting} size="sm">
-      <FileDown data-icon="inline-start" className="size-4" />
-      {exporting ? "Exporting..." : "Download PDF"}
+      <ArrowDownToLine data-icon="inline-start" className="size-3.5" />
+      {exporting ? "Exporting..." : "Export"}
     </Button>
   );
 }

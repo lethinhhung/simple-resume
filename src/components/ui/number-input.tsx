@@ -34,8 +34,8 @@ function NumberInput({
   return (
     <div
       className={cn(
-        "flex h-8 items-center rounded-lg border border-input overflow-hidden",
-        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+        "flex h-8 items-center border border-input overflow-hidden",
+        "focus-within:border-ring",
         "dark:bg-input/30",
         className
       )}
@@ -44,7 +44,7 @@ function NumberInput({
         type="button"
         onClick={decrement}
         disabled={value <= min}
-        className="flex items-center justify-center w-7 h-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none shrink-0"
+        className="flex items-center justify-center w-7 h-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none shrink-0 cursor-pointer"
       >
         <Minus className="size-3" />
       </button>
@@ -64,7 +64,7 @@ function NumberInput({
         type="button"
         onClick={increment}
         disabled={value >= max}
-        className="flex items-center justify-center w-7 h-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none shrink-0"
+        className="flex items-center justify-center w-7 h-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors disabled:opacity-30 disabled:pointer-events-none shrink-0 cursor-pointer"
       >
         <Plus className="size-3" />
       </button>

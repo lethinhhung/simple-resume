@@ -51,10 +51,10 @@ export function EducationEditor({ data, onChange }: Props) {
       {data.entries.map((entry) => (
         <div
           key={entry.id}
-          className="rounded-md border border-border p-3 space-y-2"
+          className="border border-border p-3 space-y-2.5"
         >
-          <div className="flex items-center justify-between pb-2 border-b">
-            <span className="text-sm font-medium truncate">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-muted-foreground truncate">
               {entry.institution || "Untitled"}
             </span>
             <Button
@@ -63,13 +63,13 @@ export function EducationEditor({ data, onChange }: Props) {
               className="text-muted-foreground hover:text-destructive shrink-0"
               onClick={() => removeEntry(entry.id)}
             >
-              <X className="size-3.5" />
+              <X className="size-3" />
             </Button>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">Institution</Label>
+              <Label className="text-xs text-muted-foreground">Institution</Label>
               <Input
                 value={entry.institution}
                 onChange={(e) =>
@@ -79,7 +79,7 @@ export function EducationEditor({ data, onChange }: Props) {
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Location</Label>
+              <Label className="text-xs text-muted-foreground">Location</Label>
               <Input
                 value={entry.location}
                 onChange={(e) =>
@@ -92,7 +92,7 @@ export function EducationEditor({ data, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">Degree & Field</Label>
+              <Label className="text-xs text-muted-foreground">Degree & Field</Label>
               <Input
                 value={entry.degree}
                 onChange={(e) =>
@@ -102,7 +102,7 @@ export function EducationEditor({ data, onChange }: Props) {
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Dates</Label>
+              <Label className="text-xs text-muted-foreground">Dates</Label>
               <Input
                 value={entry.dates}
                 onChange={(e) =>
@@ -115,7 +115,7 @@ export function EducationEditor({ data, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">GPA</Label>
+              <Label className="text-xs text-muted-foreground">GPA</Label>
               <Input
                 value={entry.gpa}
                 onChange={(e) =>
@@ -127,7 +127,7 @@ export function EducationEditor({ data, onChange }: Props) {
           </div>
 
           <div className="space-y-1">
-            <Label className="text-xs">Description</Label>
+            <Label className="text-xs text-muted-foreground">Description</Label>
             <Textarea
               value={entry.description}
               onChange={(e) =>
@@ -139,14 +139,12 @@ export function EducationEditor({ data, onChange }: Props) {
           </div>
         </div>
       ))}
-      <Button
-        variant="outline"
-        size="xs"
-        className="border-dashed"
+      <button
+        className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         onClick={addEntry}
       >
         + Add Education
-      </Button>
+      </button>
     </div>
   );
 }

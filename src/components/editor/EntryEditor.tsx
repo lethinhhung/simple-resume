@@ -82,11 +82,11 @@ export function EntryEditor({ data, onChange }: Props) {
       {data.entries.map((entry) => (
         <div
           key={entry.id}
-          className="rounded-md border border-border p-3 space-y-2"
+          className="border border-border p-3 space-y-2.5"
         >
-          <div className="flex items-center justify-between pb-2 border-b">
-            <span className="text-sm font-medium truncate">
-              {entry.title || "Untitled Entry"}
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-muted-foreground truncate">
+              {entry.title || "Untitled"}
             </span>
             <Button
               variant="ghost"
@@ -94,23 +94,23 @@ export function EntryEditor({ data, onChange }: Props) {
               className="text-muted-foreground hover:text-destructive shrink-0"
               onClick={() => removeEntry(entry.id)}
             >
-              <X className="size-3.5" />
+              <X className="size-3" />
             </Button>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">Title</Label>
+              <Label className="text-xs text-muted-foreground">Title</Label>
               <Input
                 value={entry.title}
                 onChange={(e) =>
                   updateEntry(entry.id, { title: e.target.value })
                 }
-                placeholder="Company or project name"
+                placeholder="Company or project"
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Subtitle</Label>
+              <Label className="text-xs text-muted-foreground">Subtitle</Label>
               <Input
                 value={entry.subtitle}
                 onChange={(e) =>
@@ -123,7 +123,7 @@ export function EntryEditor({ data, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1">
-              <Label className="text-xs">Location</Label>
+              <Label className="text-xs text-muted-foreground">Location</Label>
               <Input
                 value={entry.location}
                 onChange={(e) =>
@@ -133,7 +133,7 @@ export function EntryEditor({ data, onChange }: Props) {
               />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs">Dates</Label>
+              <Label className="text-xs text-muted-foreground">Dates</Label>
               <Input
                 value={entry.dates}
                 onChange={(e) =>
@@ -145,7 +145,7 @@ export function EntryEditor({ data, onChange }: Props) {
           </div>
 
           <div className="space-y-1">
-            <Label className="text-xs">Description</Label>
+            <Label className="text-xs text-muted-foreground">Description</Label>
             <Textarea
               value={entry.description}
               onChange={(e) =>
@@ -157,7 +157,7 @@ export function EntryEditor({ data, onChange }: Props) {
           </div>
 
           <div className="space-y-1.5">
-            <Label className="text-xs">Bullet Points</Label>
+            <Label className="text-xs text-muted-foreground">Bullets</Label>
             {entry.bullets.map((bullet, i) => (
               <div key={i} className="flex items-center gap-1.5">
                 <Input
@@ -174,29 +174,25 @@ export function EntryEditor({ data, onChange }: Props) {
                   className="text-muted-foreground hover:text-destructive shrink-0"
                   onClick={() => removeBullet(entry.id, i)}
                 >
-                  <X className="size-3.5" />
+                  <X className="size-3" />
                 </Button>
               </div>
             ))}
-            <Button
-              variant="outline"
-              size="xs"
-              className="border-dashed"
+            <button
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
               onClick={() => addBullet(entry.id)}
             >
               + Add Bullet
-            </Button>
+            </button>
           </div>
         </div>
       ))}
-      <Button
-        variant="outline"
-        size="xs"
-        className="border-dashed"
+      <button
+        className="text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         onClick={addEntry}
       >
         + Add Entry
-      </Button>
+      </button>
     </div>
   );
 }

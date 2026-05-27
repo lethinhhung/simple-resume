@@ -146,8 +146,10 @@ function buildStyles(ps: PageSettings) {
     },
     skillsContainer: {
       lineHeight: 1,
+      gap: 0,
     },
     skillRow: {
+      marginBottom: -1,
     },
   });
 }
