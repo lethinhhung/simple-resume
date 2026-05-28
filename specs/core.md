@@ -163,3 +163,89 @@ complexity. No silent additions.
 2. Exported PDF passes ATS parsing validation (Jobscan or equivalent)
 3. Preview matches exported PDF with no visible discrepancies
 4. Resume data survives browser restart without loss
+
+## Tests
+
+Unit tests live next to source as `*.test.ts`/`*.test.tsx`. Vitest runs them
+in a jsdom environment. Each spec below is a contract — when a test fails,
+the spec is the source of truth for what the code is supposed to do.
+
+### Store: Section Management
+
+Anchors the user capability *Customize resume structure* (§User Capabilities
+#2). Exercises the Zustand store's section actions in isolation as pure
+state transitions, independent of UI.
+
+**Surface**: `useResumeStore` in `src/store/resume-store.ts`.
+
+**Cases**:
+- `addSection(type)` appends a section with the type's default label
+  (Objective / Experience / Education / Technical Skills / Certification),
+  the type's empty default data shape, and `enabled: true`.
+- `addSection` allows multiple sections of the same type (per
+  §Section Types: "Users can have multiple sections of the same type").
+- `removeSection(id)` removes only the matching section; leaves order
+  of remaining sections intact.
+- `renameSection(id, label)` updates only the target section's label.
+- `toggleSection(id)` flips only the target section's `enabled` flag.
+- `moveSection(id, "up" | "down")` swaps with the adjacent section;
+  no-ops at the list boundary; no other section is reordered.
+- `reorderSections(from, to)` moves the section at `from` to `to` and
+  shifts the rest accordingly; works for both forward and backward moves.
+
+### Store: Header, Section Data, Page Settings, Reset
+
+Backs the user capabilities *Create and edit resumes* (#1) and the
+typography/margin controls implied by §Template.
+
+**Cases**:
+- `updateHeader(partial)` merges into the existing header; unspecified
+  fields are preserved (e.g. updating `name` keeps `subtitle` and `contacts`).
+- `updateSection(id, data)` replaces the data payload of the matching
+  section and leaves its `id`, `label`, and `enabled` flag untouched.
+- `updatePageSettings(partial)` merges into existing page settings.
+- `resetResume()` restores the store to `DEFAULT_RESUME`.
+
+### Store: Persistence and Hydration
+
+Backs the user capability *Save resume data locally* (#5). The store uses
+zustand `persist` middleware with key `simple-resume-data`, plus a custom
+`merge` that deep-merges `pageSettings` so persisted state from an older
+schema doesn't blow away new defaults.
+
+**Cases**:
+- After any mutating action, the serialized state in
+  `localStorage["simple-resume-data"]` reflects the new resume data.
+- The custom `merge` deep-merges `pageSettings`: if persisted state
+  contains a partial `pageSettings`, missing keys fall back to the
+  current default rather than becoming `undefined`.
+- If persisted state has no `resume` field, `merge` returns the current
+  state unchanged (graceful handling of corrupt or empty storage).
+
+### Utilities
+
+**Surface**: `src/lib/id.ts`, `src/lib/utils.ts`, `src/lib/fonts.ts`.
+
+**Cases**:
+- `generateId()` returns a unique string on every call.
+- `cn(...)` produces a class string that resolves Tailwind conflicts via
+  `tailwind-merge` (later utility wins) and ignores falsy inputs.
+- `getFontLabel(family)` returns the human label from `FONT_OPTIONS` for
+  every supported family and falls back to the raw family name when not
+  found.
+
+### Hooks: useTheme
+
+Theme toggle behavior; backs the editor UI dark/light affordance.
+
+**Surface**: `src/hooks/use-theme.ts`.
+
+**Cases**:
+- Reads initial theme from `localStorage["simple-resume-theme"]` when set.
+- Falls back to the `prefers-color-scheme` media query when storage is
+  empty.
+- `toggleTheme()` flips the theme, writes it to localStorage, and toggles
+  the `dark` class on `<html>`.
+
+**Out of scope**: PDF rendering (covered by e2e), editor form components
+(covered by e2e), responsive layout breakpoints (covered by e2e).
