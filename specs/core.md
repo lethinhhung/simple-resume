@@ -45,6 +45,8 @@ parser.
 6. **Autofill from pasted text** — Paste free-form text (and an optional
    writing-style instruction) and have AI structure and re-voice it into the
    resume in one action. See §AI Autofill.
+7. **Emphasize keywords inline** — Mark **bold** and *italic* spans inside
+   free-text fields to draw the eye to keywords. See §Inline Emphasis.
 
 ## Resume Form
 
@@ -73,6 +75,33 @@ default Harvard layout that users can customize freely.
 Users can have **multiple sections of the same type** (e.g., two Entry sections
 — "Relevant Experience" and "Projects").
 
+### Inline Emphasis (Rich Text)
+
+Free-text **body** fields support inline **bold** and *italic* emphasis so users
+can highlight keywords (skills, tools, metrics) without leaving the form.
+
+- **Marker syntax** — lightweight, Markdown-style and stored *inline in the
+  existing `string` fields*: `**bold**`, `*italic*`, `***bold italic***`. No
+  schema change, no data migration; persistence, the store, and the normalizer
+  are untouched (markers are just characters in the string).
+- **Where it applies** — only genuinely free-text body fields: Text `content`,
+  Entry `description` and `bullets`, Education `description`, List `detail`,
+  Skills `values`. Structured/label fields (name, subtitle, contacts, entry
+  title, subtitle, location, dates, gpa, institution, degree, skill category,
+  list name) keep their fixed template formatting and render markers literally —
+  the editor does not offer emphasis controls on them.
+- **Rendering** — at render time a deterministic parser splits the string into
+  styled runs and the PDF renderer emits nested `Text` runs with the matching
+  weight/style; the literal asterisks are **stripped** from the output. Bold and
+  italic are real font variants (every shipped font registers both), so output
+  stays **ATS-safe** — machine-readable text with no asterisks and no graphics.
+- **Unmatched / malformed markers** render as literal text (no crash, no
+  partial styling): a lone `*` or an unclosed `**` stays verbatim.
+- **Editor affordance** — rich-text fields expose a **B** / *I* control (shown
+  on focus) and Cmd/Ctrl+B / Cmd/Ctrl+I shortcuts that wrap or unwrap the
+  current selection. Applying bold then italic to the same selection yields
+  `***…***`.
+
 ### Default Sections
 
 New resumes start with this layout (all removable except Header): Header,
@@ -92,6 +121,8 @@ not *what* it contains.
 - Section headers: centered, bold, underlined
 - Two-column alignment: entity/label left, location/dates right
 - Bullet points use hyphens (`-`); Skills use bold category labels with a colon
+- Inline **bold**/*italic* emphasis is allowed inside body text (see §Inline
+  Emphasis); it is the only per-character styling the template permits
 - Serif font (Times New Roman or equivalent), 10–11pt; 0.5in margins
 - No color, no icons, no graphics
 
@@ -119,7 +150,9 @@ still works fully offline.
   tighten, or re-voice the pasted content, but the system prompt forbids
   inventing facts the source text does not contain — no made-up employers,
   titles, dates, metrics, or skills. Style governs *how* content reads, not
-  *what* it claims.
+  *what* it claims. As part of presentation, the model may **emphasize** a few
+  keywords already in the source with inline `**bold**`/`*italic*` markers (see
+  §Inline Emphasis); emphasis is styling, never a license to add content.
 - **Fail closed, never half-apply** — The resume is mutated only after a fully
   validated `ResumeData` is in hand. Any error (network, quota, invalid JSON,
   schema mismatch) leaves the existing resume untouched.
@@ -171,6 +204,10 @@ bullet phrasing, tense, and emphasis.
 - **Wording only.** The model may turn "did sales, numbers went up" into "Drove
   revenue growth through targeted sales initiatives", but may not invent a
   figure, employer, date, or skill the source never mentioned.
+- **Sparing emphasis.** The model may wrap a handful of high-signal keywords per
+  resume in `**bold**`/`*italic*` markers, but only inside the free-text body
+  fields listed in §Inline Emphasis — never in structured fields (names, titles,
+  dates). Over-emphasis is discouraged; when in doubt, leave text unmarked.
 - **Cannot alter structure.** Output shape is fixed by the response schema and
   re-enforced by the normalizer; the field cannot produce an invalid
   `ResumeData`.
@@ -267,6 +304,8 @@ The sliding-window logic is a pure, unit-tested helper backing the route:
 - Single Harvard template, structured form editing, realtime preview,
   client-side PDF export, localStorage persistence, responsive editor,
   add/remove/reorder/rename sections with multiple section types.
+- Inline **bold**/*italic* emphasis in free-text body fields, stored as inline
+  markers; editor controls + keyboard shortcuts; ATS-safe styled PDF output.
 - AI Autofill: free-form text → `ResumeData` via the app's server proxy;
   optional writing-style re-voicing; deterministic normalizer; best-effort
   server-side rate limiting; privacy disclosure; destructive-replace
@@ -372,6 +411,23 @@ The store uses zustand `persist` with key `simple-resume-data`, plus a custom
 - A section missing a `label` receives the type's default label.
 - A payload yielding zero valid sections returns an error, not an empty resume.
 - Non-object / non-JSON input returns a typed error rather than throwing.
+
+### Lib: Rich Text
+
+**Surface**: `src/lib/rich-text.ts`.
+
+- `parseRichText(s)` splits a string into ordered runs `{ text, bold, italic }`;
+  plain text yields a single unstyled run.
+- `**x**` → bold run, `*x*` → italic run, `***x***` → bold+italic run, with the
+  surrounding asterisks stripped from `text`.
+- Unmatched or unclosed markers (a lone `*`, a dangling `**`) stay literal in a
+  plain run; the function never throws.
+- `toggleMarker(text, start, end, marker)` wraps the `[start, end)` selection in
+  the marker and returns the new value plus the shifted selection.
+- `toggleMarker` is a no-op when the selection is empty.
+- `toggleMarker` **unwraps** when the selection is already wrapped — markers
+  immediately inside or immediately outside the selection — without corrupting an
+  adjacent marker of the other kind (`*` vs `**`).
 
 ### Utilities
 

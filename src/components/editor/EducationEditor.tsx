@@ -2,9 +2,9 @@ import { X } from "lucide-react";
 import { EducationSection, EducationItem } from "@/lib/types";
 import { generateId } from "@/lib/id";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { RichTextInput } from "@/components/editor/RichTextInput";
 
 interface Props {
   data: EducationSection;
@@ -128,11 +128,10 @@ export function EducationEditor({ data, onChange }: Props) {
 
           <div className="space-y-1">
             <Label className="text-xs text-muted-foreground">Description</Label>
-            <Textarea
+            <RichTextInput
+              multiline
               value={entry.description}
-              onChange={(e) =>
-                updateEntry(entry.id, { description: e.target.value })
-              }
+              onChange={(description) => updateEntry(entry.id, { description })}
               placeholder="Thesis, honors, etc. (optional)"
               rows={2}
             />

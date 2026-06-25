@@ -2,9 +2,9 @@ import { X } from "lucide-react";
 import { EntrySection, EntryItem } from "@/lib/types";
 import { generateId } from "@/lib/id";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { RichTextInput } from "@/components/editor/RichTextInput";
 
 interface Props {
   data: EntrySection;
@@ -146,10 +146,11 @@ export function EntryEditor({ data, onChange }: Props) {
 
           <div className="space-y-1">
             <Label className="text-xs text-muted-foreground">Description</Label>
-            <Textarea
+            <RichTextInput
+              multiline
               value={entry.description}
-              onChange={(e) =>
-                updateEntry(entry.id, { description: e.target.value })
+              onChange={(description) =>
+                updateEntry(entry.id, { description })
               }
               placeholder="Brief description (optional)"
               rows={2}
@@ -160,11 +161,9 @@ export function EntryEditor({ data, onChange }: Props) {
             <Label className="text-xs text-muted-foreground">Bullets</Label>
             {entry.bullets.map((bullet, i) => (
               <div key={i} className="flex items-center gap-1.5">
-                <Input
+                <RichTextInput
                   value={bullet}
-                  onChange={(e) =>
-                    updateBullet(entry.id, i, e.target.value)
-                  }
+                  onChange={(value) => updateBullet(entry.id, i, value)}
                   placeholder="Achievement or responsibility"
                   className="flex-1"
                 />

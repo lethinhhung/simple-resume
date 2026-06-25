@@ -3,6 +3,7 @@ import { SkillsSection } from "@/lib/types";
 import { generateId } from "@/lib/id";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RichTextInput } from "@/components/editor/RichTextInput";
 
 interface Props {
   data: SkillsSection;
@@ -50,9 +51,9 @@ export function SkillsEditor({ data, onChange }: Props) {
             placeholder="Category"
             className="w-28 shrink-0"
           />
-          <Input
+          <RichTextInput
             value={cat.values}
-            onChange={(e) => updateCategory(cat.id, "values", e.target.value)}
+            onChange={(value) => updateCategory(cat.id, "values", value)}
             placeholder="Comma-separated skills"
             className="flex-1"
           />

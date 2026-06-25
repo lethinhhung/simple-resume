@@ -1,5 +1,5 @@
 import { TextSection } from "@/lib/types";
-import { Textarea } from "@/components/ui/textarea";
+import { RichTextInput } from "@/components/editor/RichTextInput";
 
 interface Props {
   data: TextSection;
@@ -8,9 +8,10 @@ interface Props {
 
 export function TextEditor({ data, onChange }: Props) {
   return (
-    <Textarea
+    <RichTextInput
+      multiline
       value={data.content}
-      onChange={(e) => onChange({ ...data, content: e.target.value })}
+      onChange={(content) => onChange({ ...data, content })}
       placeholder="Enter text content..."
       rows={4}
     />

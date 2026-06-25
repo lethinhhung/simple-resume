@@ -19,6 +19,7 @@ import {
   ListSection,
   PageSettings,
 } from "@/lib/types";
+import { parseRichText } from "@/lib/rich-text";
 
 Font.registerHyphenationCallback((word) => [word]);
 
@@ -132,6 +133,9 @@ function buildStyles(ps: PageSettings) {
       fontWeight: "bold",
       fontStyle: "italic",
     },
+    italicOnly: {
+      fontStyle: "italic",
+    },
     text: {
       marginTop: 1,
     },
@@ -222,9 +226,24 @@ function SectionContent({
 
 type S = ReturnType<typeof buildStyles>;
 
+// Turns inline-emphasis markup into react-pdf nodes: plain runs stay raw strings,
+// emphasized runs become nested <Text> with the matching weight/style. The
+// literal asterisks are dropped, keeping the PDF ATS-safe.
+function renderRuns(value: string, s: S) {
+  return parseRichText(value).map((run, i) => {
+    if (!run.bold && !run.italic) return run.text;
+    const style = run.bold && run.italic ? s.boldItalic : run.bold ? s.bold : s.italicOnly;
+    return (
+      <Text key={i} style={style}>
+        {run.text}
+      </Text>
+    );
+  });
+}
+
 function PdfText({ data, styles: s }: { data: TextSection; styles: S }) {
   if (!data.content) return null;
-  return <Text style={s.text}>{data.content}</Text>;
+  return <Text style={s.text}>{renderRuns(data.content, s)}</Text>;
 }
 
 function PdfEntry({ data, styles: s }: { data: EntrySection; styles: S }) {
@@ -258,13 +277,13 @@ function PdfEntry({ data, styles: s }: { data: EntrySection; styles: S }) {
             </View>
           ) : null}
           {entry.description ? (
-            <Text style={s.text}>{entry.description}</Text>
+            <Text style={s.text}>{renderRuns(entry.description, s)}</Text>
           ) : null}
           {entry.bullets.map(
             (bullet, i) =>
               bullet && (
                 <Text key={i} style={s.bullet}>
-                  - {bullet}
+                  - {renderRuns(bullet, s)}
                 </Text>
               )
           )}
@@ -304,7 +323,7 @@ function PdfEducation({
             ) : null}
           </View>
           {entry.description ? (
-            <Text style={s.text}>{entry.description}</Text>
+            <Text style={s.text}>{renderRuns(entry.description, s)}</Text>
           ) : null}
         </View>
       ))}
@@ -317,7 +336,7 @@ function PdfSkills({ data, styles: s }: { data: SkillsSection; styles: S }) {
     <View style={s.skillsContainer}>
       {data.categories.map((cat) => (
         <Text key={cat.id} style={s.skillRow}>
-          <Text style={s.bold}>{cat.category}:</Text> {cat.values}
+          <Text style={s.bold}>{cat.category}:</Text> {renderRuns(cat.values, s)}
         </Text>
       ))}
     </View>
@@ -331,7 +350,7 @@ function PdfList({ data, styles: s }: { data: ListSection; styles: S }) {
         <View key={item.id} style={s.row}>
           <Text>
             <Text style={s.bold}>{item.name}</Text>
-            {item.detail ? ` ${item.detail}` : ""}
+            {item.detail ? <Text> {renderRuns(item.detail, s)}</Text> : null}
           </Text>
           {item.dates ? (
             <Text style={s.rowRight}>{item.dates}</Text>

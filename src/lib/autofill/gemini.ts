@@ -43,6 +43,12 @@ SECTION TYPES (pick the best fit per block; "label" is a heading suited to the c
 HEADER
 - header.name = the person's full name; header.subtitle = their headline/role; header.contacts = a flat list of contact strings (email, phone, location, links).
 
+KEYWORD EMPHASIS (formatting, not content)
+- You may highlight a few high-signal keywords with inline Markdown-style markers: "**bold**" for the most important terms (key skills, tools, technologies, metrics, notable achievements), "*italic*" for lighter emphasis, and "***both***" only when truly warranted.
+- This is for scannability, NOT decoration: mark only a handful of terms across the whole resume; the large majority of text stays unmarked. Never bold an entire sentence or a whole bullet, and never emphasize ordinary connective words.
+- Use markers ONLY inside free-text body fields: text "content", entry "description" and "bullets", education "description", list "detail", and skills "values". NEVER place markers in name, subtitle, contacts, entry title/subtitle/location/dates, gpa, institution, degree, skills "category", or list "name" — those fields must stay plain.
+- Emphasis is presentation only; it never changes, adds, or removes facts. When in doubt, leave the text unmarked.
+
 WRITING-STYLE INSTRUCTION
 - Apply any requested style to WORDING and presentation only (tone, phrasing, verb choice, language, emphasis, which optional sections to include). It must never introduce facts absent from the source.`;
 

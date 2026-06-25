@@ -3,6 +3,7 @@ import { ListSection } from "@/lib/types";
 import { generateId } from "@/lib/id";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { RichTextInput } from "@/components/editor/RichTextInput";
 
 interface Props {
   data: ListSection;
@@ -51,9 +52,9 @@ export function ListEditor({ data, onChange }: Props) {
               placeholder="Name (e.g. certification title)"
             />
             <div className="grid grid-cols-2 gap-2">
-              <Input
+              <RichTextInput
                 value={item.detail}
-                onChange={(e) => updateItem(item.id, "detail", e.target.value)}
+                onChange={(value) => updateItem(item.id, "detail", value)}
                 placeholder="Detail (optional)"
               />
               <Input
