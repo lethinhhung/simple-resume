@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from "vitest";
 import { useResumeStore } from "./resume-store";
 import { DEFAULT_RESUME } from "@/lib/defaults";
-import type { SectionType } from "@/lib/types";
+import type { ResumeData, SectionType } from "@/lib/types";
 
 const DEFAULT_LABEL: Record<SectionType, string> = {
   text: "Objective",
@@ -277,5 +277,58 @@ describe("persistence", () => {
 
     const merged = merge({}, current);
     expect(merged).toBe(current);
+  });
+});
+
+describe("autofillResume", () => {
+  const incoming: ResumeData = {
+    header: {
+      name: "AUTOFILLED PERSON",
+      subtitle: "Imported Subtitle",
+      contacts: [{ id: "x1", value: "new@example.com" }],
+    },
+    sections: [
+      {
+        id: "new-s1",
+        label: "Summary",
+        enabled: true,
+        data: { type: "text", content: "Autofilled summary." },
+      },
+    ],
+    pageSettings: {
+      marginTop: 9,
+      marginBottom: 9,
+      marginLeft: 9,
+      marginRight: 9,
+      fontSize: 99,
+      fontFamily: "Courier",
+    },
+  };
+
+  test("replaces header and sections with the provided data", () => {
+    useResumeStore.getState().autofillResume(incoming);
+
+    const after = useResumeStore.getState().resume;
+    expect(after.header).toEqual(incoming.header);
+    expect(after.sections).toEqual(incoming.sections);
+  });
+
+  test("preserves the existing pageSettings and ignores the incoming ones", () => {
+    const before = useResumeStore.getState().resume.pageSettings;
+    useResumeStore.getState().autofillResume(incoming);
+
+    const after = useResumeStore.getState().resume.pageSettings;
+    expect(after).toEqual(before);
+    expect(after.fontSize).not.toBe(99);
+  });
+
+  test("persists the replacement to simple-resume-data", () => {
+    useResumeStore.getState().autofillResume(incoming);
+
+    const raw = localStorage.getItem("simple-resume-data");
+    expect(raw).not.toBeNull();
+    const parsed = JSON.parse(raw!);
+    expect(parsed.state.resume.header.name).toBe("AUTOFILLED PERSON");
+    expect(parsed.state.resume.sections).toHaveLength(1);
   });
 });

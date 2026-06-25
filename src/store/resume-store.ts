@@ -3,11 +3,9 @@ import { persist } from "zustand/middleware";
 import {
   ResumeData,
   HeaderBlock,
-  Section,
   SectionData,
   SectionType,
   PageSettings,
-  FontFamily,
 } from "@/lib/types";
 import { DEFAULT_RESUME } from "@/lib/defaults";
 import { generateId } from "@/lib/id";
@@ -72,6 +70,7 @@ interface ResumeStore {
   reorderSections: (fromIndex: number, toIndex: number) => void;
   updatePageSettings: (settings: Partial<PageSettings>) => void;
   resetResume: () => void;
+  autofillResume: (data: ResumeData) => void;
 }
 
 export const useResumeStore = create<ResumeStore>()(
@@ -173,6 +172,17 @@ export const useResumeStore = create<ResumeStore>()(
         })),
 
       resetResume: () => set({ resume: DEFAULT_RESUME }),
+
+      // Replace header + sections from an AI-generated resume; pageSettings
+      // (layout preferences, not pasted content) are intentionally preserved.
+      autofillResume: (data) =>
+        set((state) => ({
+          resume: {
+            ...state.resume,
+            header: data.header,
+            sections: data.sections,
+          },
+        })),
     }),
     {
       name: "simple-resume-data",

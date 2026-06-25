@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { EditorPanel } from "@/components/editor/EditorPanel";
 import { PdfPreview } from "@/components/pdf/PdfPreview";
 import { ExportButton } from "@/components/pdf/ExportButton";
+import { AutofillDialog } from "@/components/editor/AutofillDialog";
 import { TechStackInfo } from "@/components/TechStackInfo";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -30,6 +31,7 @@ export default function Home() {
               )}
             </Button>
           )}
+          <AutofillDialog />
           <ExportButton />
         </div>
       </header>
