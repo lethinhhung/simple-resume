@@ -7,6 +7,7 @@ import { EditorPanel } from "@/components/editor/EditorPanel";
 import { PdfPreview } from "@/components/pdf/PdfPreview";
 import { ExportButton } from "@/components/pdf/ExportButton";
 import { AutofillDialog } from "@/components/editor/AutofillDialog";
+import { AutofillHint } from "@/components/editor/AutofillHint";
 import { TechStackInfo } from "@/components/TechStackInfo";
 import { useTheme } from "@/hooks/use-theme";
 
@@ -31,7 +32,9 @@ export default function Home() {
               )}
             </Button>
           )}
-          <AutofillDialog />
+          <AutofillHint>
+            <AutofillDialog />
+          </AutofillHint>
           <ExportButton />
         </div>
       </header>

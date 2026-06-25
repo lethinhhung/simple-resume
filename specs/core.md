@@ -188,7 +188,8 @@ network down, every other capability still works offline.
   structured output; a hand-written TypeScript normalizer; an in-memory rate
   limiter. No new runtime dependency.
 - **Storage**: Browser localStorage — `simple-resume-data` (content),
-  `simple-resume-theme`, `simple-resume-autofill-style`
+  `simple-resume-theme`, `simple-resume-autofill-style`,
+  `simple-resume-autofill-hint-seen` (first-visit Autofill coachmark dismissed)
 - **Testing**: Vitest (jsdom) unit tests next to source; Playwright e2e
 
 ## In-Scope

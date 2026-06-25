@@ -55,13 +55,24 @@ export function TechStackInfo() {
           </div>
           <div>
             <h3 className="mb-1.5 text-xs font-medium tracking-tight text-foreground">
+              AI Autofill
+            </h3>
+            <ul className="list-inside list-disc space-y-0.5 text-xs text-muted-foreground">
+              <li>Google Gemini API (structured JSON output)</li>
+              <li>Server-side proxy — the API key never reaches the browser</li>
+              <li>Pasted text is sent to Google to draft your resume</li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="mb-1.5 text-xs font-medium tracking-tight text-foreground">
               Features
             </h3>
             <ul className="list-inside list-disc space-y-0.5 text-xs text-muted-foreground">
+              <li>AI Autofill — turn pasted text into a structured resume</li>
               <li>Live PDF preview</li>
               <li>Dark/Light theme</li>
               <li>Export to PDF</li>
-              <li>Local-first — your data never leaves the browser</li>
+              <li>Local-first — your resume is stored only in your browser</li>
             </ul>
           </div>
           <div className="border-t border-border pt-4 text-xs text-muted-foreground">
