@@ -17,7 +17,9 @@ text), export a PDF that passes every ATS parser.
 - **Deterministic rendering** — The same data always produces the same output;
   no surprises between preview and export.
 - **One-page optimized layout** — Content is reflowed to fit a single US Letter
-  page via font-size reduction and spacing compression, never a second page.
+  page via font-size reduction and spacing compression. Should content still
+  exceed one page, it paginates at entry boundaries without ever splitting a
+  single entry across the page boundary (see §Template).
 - **ATS-safe formatting** — Standard fonts, no columns, no tables-for-layout, no
   images or icons in the PDF. Machine-readable text order matches visual order.
 - **Fast PDF generation** — Export completes in under 2 seconds, with no server
@@ -110,6 +112,13 @@ Exactly one template: **Harvard**. It controls *how* the resume looks, not
   §Inline Emphasis)
 - Serif font (Times New Roman or equivalent), 10–11pt; 0.5in margins
 - No color, no icons, no graphics
+- **Page-break safety** — A section may span a page boundary, but only between
+  its entries: a multi-entry section (e.g. Experience, Projects) breaks between
+  whole entries, and a single entry — one job, one degree, one list item, one
+  skills line — is never split across pages, moving intact to the next page when
+  it does not fit. The centered section header is kept with the start of its
+  content rather than stranded alone at the foot of a page. (Free-text
+  paragraphs, having no entries, may still flow across the boundary.)
 
 ## AI Autofill
 

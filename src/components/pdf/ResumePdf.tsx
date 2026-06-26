@@ -181,7 +181,12 @@ export function ResumePdf({ resume }: { resume: ResumeData }) {
         </View>
 
         {enabledSections.map((section) => (
-          <SectionBlock key={section.id} section={section} styles={s} />
+          <SectionBlock
+            key={section.id}
+            section={section}
+            styles={s}
+            keepTitleWithContent={resume.pageSettings.fontSize * 4}
+          />
         ))}
       </Page>
     </Document>
@@ -191,13 +196,22 @@ export function ResumePdf({ resume }: { resume: ResumeData }) {
 function SectionBlock({
   section,
   styles: s,
+  keepTitleWithContent,
 }: {
   section: Section;
   styles: ReturnType<typeof buildStyles>;
+  keepTitleWithContent: number;
 }) {
+  // The section itself may wrap across pages between its entries (a long
+  // "Projects" section splits between projects, not within one). Individual
+  // entries are kept intact via wrap={false} in the content components below.
+  // minPresenceAhead stops the centered title from being stranded alone at the
+  // bottom of a page when the first entry won't fit beneath it.
   return (
     <View style={s.section}>
-      <Text style={s.sectionTitle}>{section.label}</Text>
+      <Text style={s.sectionTitle} minPresenceAhead={keepTitleWithContent}>
+        {section.label}
+      </Text>
       <SectionContent data={section.data} styles={s} />
     </View>
   );
@@ -253,6 +267,7 @@ function PdfEntry({ data, styles: s }: { data: EntrySection; styles: S }) {
         <View
           key={entry.id}
           style={idx < data.entries.length - 1 ? s.entry : s.entryLast}
+          wrap={false}
         >
           <View style={s.row}>
             <Text style={s.bold}>{entry.title}</Text>
@@ -306,6 +321,7 @@ function PdfEducation({
         <View
           key={entry.id}
           style={idx < data.entries.length - 1 ? s.entry : s.entryLast}
+          wrap={false}
         >
           <View style={s.row}>
             <Text style={s.bold}>{entry.institution.toUpperCase()}</Text>
@@ -335,7 +351,7 @@ function PdfSkills({ data, styles: s }: { data: SkillsSection; styles: S }) {
   return (
     <View style={s.skillsContainer}>
       {data.categories.map((cat) => (
-        <Text key={cat.id} style={s.skillRow}>
+        <Text key={cat.id} style={s.skillRow} wrap={false}>
           <Text style={s.bold}>{cat.category}:</Text> {renderRuns(cat.values, s)}
         </Text>
       ))}
@@ -347,7 +363,7 @@ function PdfList({ data, styles: s }: { data: ListSection; styles: S }) {
   return (
     <View>
       {data.items.map((item) => (
-        <View key={item.id} style={s.row}>
+        <View key={item.id} style={s.row} wrap={false}>
           <Text>
             <Text style={s.bold}>{item.name}</Text>
             {item.detail ? <Text> {renderRuns(item.detail, s)}</Text> : null}
